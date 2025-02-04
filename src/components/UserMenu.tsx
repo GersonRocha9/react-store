@@ -6,7 +6,7 @@ import { globalStore } from '../store/globalStore';
 
 export function UserMenu() {
   useRenderCounter('UserMenu');
-
+  const { login, logout } = globalStore.getState();
   const [user, setUser] = useState(globalStore.getState().user);
 
   useEffect(() => {
@@ -18,21 +18,6 @@ export function UserMenu() {
       unsubscribe();
     };
   }, []);
-
-  function login() {
-    globalStore.setState({
-      user: {
-        email: 'gersonrocha9@gmail.com',
-        name: 'Gerson Rocha',
-      },
-    });
-  }
-
-  function logout() {
-    globalStore.setState({
-      user: null,
-    });
-  }
 
   if (!user) {
     return (

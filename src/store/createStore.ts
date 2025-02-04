@@ -5,7 +5,7 @@ export function createStore<TState extends Record<string, any>>(
   createState: (setState: SetStateFn<TState>) => TState,
 ) {
   let state: TState;
-  const listeners = new Set<() => void>();
+  let listeners: Set<() => void>;
 
   function notifyListeners() {
     listeners.forEach((listener) => listener());
@@ -35,6 +35,7 @@ export function createStore<TState extends Record<string, any>>(
     return state;
   }
   state = createState(setState);
+  listeners = new Set();
 
   return { setState, getState, subscribe };
 }
