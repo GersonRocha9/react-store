@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useSyncExternalStore } from 'react';
 
 type SetterFn<T> = (prevState: T) => Partial<T>;
 type SetStateFn<T> = (partialState: Partial<T> | SetterFn<T>) => void;
@@ -40,20 +40,7 @@ export function createStore<TState extends Record<string, any>>(
   function useStore<TValue>(
     selector: (currentState: TState) => TValue,
   ): TValue {
-    const [value, setValue] = useState(() => selector(state));
-
-    useEffect(() => {
-      const unsubscribe = subscribe(() => {
-        const newValue = selector(state);
-
-        if (value !== newValue) setValue(newValue);
-      });
-      return () => {
-        unsubscribe();
-      };
-    }, [selector, value]);
-
-    return value;
+    return useSyncExternalStore(subscribe, () => selector(state)); // Serve para sincronizar o componente com uma store externa (qualquer objeto)
   }
 
   state = createState(setState);
