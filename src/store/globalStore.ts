@@ -13,7 +13,8 @@ interface IGlobalStore {
   // removeTodo(todoId: number): void;
 }
 
-export const globalStore = createStore<IGlobalStore>({
+export const globalStore = createStore<IGlobalStore>((setState) => ({
   user: null,
   todos: [],
-});
+  logout: () => setState({ user: null }),
+}));
