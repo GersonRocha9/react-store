@@ -1,9 +1,9 @@
-import { useRef } from 'react';
+import { memo, useRef } from 'react';
 
 import { useRenderCounter } from '../hooks/useRenderCounter';
 import { useGlobalStore } from '../store/globalStore';
 
-export function TodoForm() {
+function TodoFormComponent() {
   useRenderCounter('TodoForm');
 
   const inputRef = useRef<HTMLInputElement | null>(null);
@@ -35,3 +35,5 @@ export function TodoForm() {
     </form>
   );
 }
+
+export const TodoForm = memo(TodoFormComponent);
